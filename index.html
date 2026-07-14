@@ -324,7 +324,7 @@
 
         function draw() {
             // Draw background
-            ctx.fillStyle = '#1a5f7a';
+            ctx.fillStyle = '#d32f2f';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             // Draw light rays
@@ -379,35 +379,26 @@
                 ctx.fill();
             }
 
-            // Draw fish body with gradient
-            const fishGradient = ctx.createLinearGradient(bird.x - bird.width / 2, bird.y, bird.x + bird.width / 2, bird.y);
-            fishGradient.addColorStop(0, '#FF0000');
-            fishGradient.addColorStop(0.2, '#FF7F00');
-            fishGradient.addColorStop(0.4, '#FFFF00');
-            fishGradient.addColorStop(0.6, '#00FF00');
-            fishGradient.addColorStop(0.8, '#0000FF');
-            fishGradient.addColorStop(1, '#9400D3');
-            ctx.fillStyle = fishGradient;
+            // Draw bird body with gradient
+            const birdGradient = ctx.createLinearGradient(bird.x - bird.width / 2, bird.y, bird.x + bird.width / 2, bird.y);
+            birdGradient.addColorStop(0, '#FF0000');
+            birdGradient.addColorStop(0.2, '#FF7F00');
+            birdGradient.addColorStop(0.4, '#FFFF00');
+            birdGradient.addColorStop(0.6, '#00FF00');
+            birdGradient.addColorStop(0.8, '#0000FF');
+            birdGradient.addColorStop(1, '#9400D3');
+            ctx.fillStyle = birdGradient;
             ctx.beginPath();
             ctx.ellipse(bird.x + bird.width / 2, bird.y + bird.height / 2, bird.width / 2, bird.height / 2, 0, 0, Math.PI * 2);
             ctx.fill();
 
-            // Draw fish tail - orange
-            ctx.fillStyle = '#FF7F00';
+            // Draw bird wings
+            ctx.fillStyle = 'rgba(255, 165, 0, 0.6)';
             ctx.beginPath();
-            ctx.moveTo(bird.x - 5, bird.y + bird.height / 2 - 6);
-            ctx.lineTo(bird.x - 12, bird.y + bird.height / 2 - 10);
-            ctx.lineTo(bird.x - 10, bird.y + bird.height / 2);
-            ctx.lineTo(bird.x - 12, bird.y + bird.height / 2 + 10);
-            ctx.lineTo(bird.x - 5, bird.y + bird.height / 2 + 6);
+            ctx.ellipse(bird.x + bird.width / 4, bird.y + bird.height / 2, bird.width / 3, bird.height / 1.5, -0.3, 0, Math.PI * 2);
             ctx.fill();
-
-            // Draw fish fin - blue
-            ctx.fillStyle = 'rgba(0, 150, 255, 0.8)';
             ctx.beginPath();
-            ctx.moveTo(bird.x + bird.width / 2, bird.y - 2);
-            ctx.lineTo(bird.x + bird.width / 2 - 4, bird.y - 10);
-            ctx.lineTo(bird.x + bird.width / 2 + 4, bird.y - 10);
+            ctx.ellipse(bird.x + bird.width * 0.75, bird.y + bird.height / 2, bird.width / 3, bird.height / 1.5, 0.3, 0, Math.PI * 2);
             ctx.fill();
 
             // Draw fish eye
