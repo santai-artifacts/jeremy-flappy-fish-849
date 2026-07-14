@@ -175,8 +175,8 @@
             width: 34,
             height: 24,
             velocity: 0,
-            gravity: 0.25,
-            jump: -7,
+            gravity: 0.4,
+            jump: -10,
             color: '#FF6B6B'
         };
 
@@ -281,7 +281,7 @@
 
             // Update pipes
             for (let pipe of pipes) {
-                pipe.x -= 2;
+                pipe.x -= 3.5;
 
                 // Check scoring
                 if (!pipe.scored && pipe.x + pipeWidth < bird.x) {
