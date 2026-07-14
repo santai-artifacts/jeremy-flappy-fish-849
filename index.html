@@ -175,8 +175,8 @@
             width: 34,
             height: 24,
             velocity: 0,
-            gravity: 0.6,
-            jump: -12,
+            gravity: 0.4,
+            jump: -10,
             color: '#FF6B6B'
         };
 
@@ -186,8 +186,8 @@
         let gameRunning = true;
         let gameStarted = false;
         const pipeWidth = 60;
-        const pipeGap = 140;
-        const pipeSeparation = 200;
+        const pipeGap = 180;
+        const pipeSeparation = 220;
         let bubbles = [];
         let time = 0;
 
@@ -281,7 +281,7 @@
 
             // Update pipes
             for (let pipe of pipes) {
-                pipe.x -= 5;
+                pipe.x -= 3.5;
 
                 // Check scoring
                 if (!pipe.scored && pipe.x + pipeWidth < bird.x) {
