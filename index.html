@@ -175,9 +175,9 @@
             width: 34,
             height: 24,
             velocity: 0,
-            gravity: 0.4,
-            jump: -10,
-            color: '#FF6B6B'
+            gravity: 0.25,
+            jump: -7,
+            color: '#4CAF50'
         };
 
         let pipes = [];
@@ -281,7 +281,7 @@
 
             // Update pipes
             for (let pipe of pipes) {
-                pipe.x -= 3.5;
+                pipe.x -= 2;
 
                 // Check scoring
                 if (!pipe.scored && pipe.x + pipeWidth < bird.x) {
@@ -386,7 +386,7 @@
             ctx.fill();
 
             // Draw fish tail
-            ctx.fillStyle = '#FF8787';
+            ctx.fillStyle = '#66BB6A';
             ctx.beginPath();
             ctx.moveTo(bird.x - 5, bird.y + bird.height / 2 - 6);
             ctx.lineTo(bird.x - 12, bird.y + bird.height / 2 - 10);
@@ -396,7 +396,7 @@
             ctx.fill();
 
             // Draw fish fin
-            ctx.fillStyle = 'rgba(255, 107, 107, 0.7)';
+            ctx.fillStyle = 'rgba(76, 175, 80, 0.7)';
             ctx.beginPath();
             ctx.moveTo(bird.x + bird.width / 2, bird.y - 2);
             ctx.lineTo(bird.x + bird.width / 2 - 4, bird.y - 10);
