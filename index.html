@@ -175,9 +175,9 @@
             width: 34,
             height: 24,
             velocity: 0,
-            gravity: 0.25,
-            jump: -7,
-            color: '#4CAF50'
+            gravity: 0.2,
+            jump: -8,
+            color: '#FF6B6B'
         };
 
         let pipes = [];
@@ -190,6 +190,7 @@
         const pipeSeparation = 220;
         let bubbles = [];
         let time = 0;
+        let animationId = null;
 
         updateBestScoreDisplay();
 
@@ -221,9 +222,12 @@
             score = 0;
             gameRunning = true;
             gameStarted = false;
+            bubbles = [];
+            time = 0;
             overlay.classList.remove('active');
             scoreDisplay.textContent = '0';
             createInitialPipes();
+            if (animationId) cancelAnimationFrame(animationId);
             gameLoop();
         }
 
@@ -281,7 +285,7 @@
 
             // Update pipes
             for (let pipe of pipes) {
-                pipe.x -= 2;
+                pipe.x -= 2.5;
 
                 // Check scoring
                 if (!pipe.scored && pipe.x + pipeWidth < bird.x) {
@@ -319,12 +323,8 @@
         }
 
         function draw() {
-            // Draw underwater gradient background
-            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            gradient.addColorStop(0, '#FFE066');
-            gradient.addColorStop(0.5, '#FFD700');
-            gradient.addColorStop(1, '#FFC200');
-            ctx.fillStyle = gradient;
+            // Draw background
+            ctx.fillStyle = '#1a5f7a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             // Draw light rays
@@ -386,7 +386,7 @@
             ctx.fill();
 
             // Draw fish tail
-            ctx.fillStyle = '#66BB6A';
+            ctx.fillStyle = '#FF8787';
             ctx.beginPath();
             ctx.moveTo(bird.x - 5, bird.y + bird.height / 2 - 6);
             ctx.lineTo(bird.x - 12, bird.y + bird.height / 2 - 10);
@@ -396,7 +396,7 @@
             ctx.fill();
 
             // Draw fish fin
-            ctx.fillStyle = 'rgba(76, 175, 80, 0.7)';
+            ctx.fillStyle = 'rgba(255, 107, 107, 0.7)';
             ctx.beginPath();
             ctx.moveTo(bird.x + bird.width / 2, bird.y - 2);
             ctx.lineTo(bird.x + bird.width / 2 - 4, bird.y - 10);
@@ -450,7 +450,7 @@
         function gameLoop() {
             update();
             draw();
-            requestAnimationFrame(gameLoop);
+            animationId = requestAnimationFrame(gameLoop);
         }
 
         // Start the game
