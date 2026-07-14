@@ -177,7 +177,7 @@
             velocity: 0,
             gravity: 0.6,
             jump: -12,
-            color: '#FFD700'
+            color: '#FF6B6B'
         };
 
         let pipes = [];
@@ -303,13 +303,31 @@
                 ctx.fillRect(pipe.x, pipe.gapY + pipeGap, pipeWidth, canvas.height - (pipe.gapY + pipeGap));
             }
 
-            // Draw bird
+            // Draw fish body
             ctx.fillStyle = bird.color;
             ctx.beginPath();
             ctx.ellipse(bird.x + bird.width / 2, bird.y + bird.height / 2, bird.width / 2, bird.height / 2, 0, 0, Math.PI * 2);
             ctx.fill();
 
-            // Draw bird eye
+            // Draw fish tail
+            ctx.fillStyle = '#FF8787';
+            ctx.beginPath();
+            ctx.moveTo(bird.x - 5, bird.y + bird.height / 2 - 6);
+            ctx.lineTo(bird.x - 12, bird.y + bird.height / 2 - 10);
+            ctx.lineTo(bird.x - 10, bird.y + bird.height / 2);
+            ctx.lineTo(bird.x - 12, bird.y + bird.height / 2 + 10);
+            ctx.lineTo(bird.x - 5, bird.y + bird.height / 2 + 6);
+            ctx.fill();
+
+            // Draw fish fin
+            ctx.fillStyle = 'rgba(255, 107, 107, 0.7)';
+            ctx.beginPath();
+            ctx.moveTo(bird.x + bird.width / 2, bird.y - 2);
+            ctx.lineTo(bird.x + bird.width / 2 - 4, bird.y - 10);
+            ctx.lineTo(bird.x + bird.width / 2 + 4, bird.y - 10);
+            ctx.fill();
+
+            // Draw fish eye
             ctx.fillStyle = 'white';
             ctx.beginPath();
             ctx.arc(bird.x + bird.width * 0.65, bird.y + bird.height * 0.35, 4, 0, Math.PI * 2);
