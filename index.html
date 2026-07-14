@@ -188,6 +188,8 @@
         const pipeWidth = 60;
         const pipeGap = 140;
         const pipeSeparation = 200;
+        let bubbles = [];
+        let time = 0;
 
         updateBestScoreDisplay();
 
@@ -237,8 +239,35 @@
             }
         }
 
+        function createBubble() {
+            bubbles.push({
+                x: Math.random() * canvas.width,
+                y: canvas.height,
+                radius: Math.random() * 3 + 1,
+                speed: Math.random() * 0.5 + 0.3,
+                wobble: Math.random() * 0.05
+            });
+        }
+
         function update() {
             if (!gameRunning) return;
+
+            time++;
+
+            // Update bubbles
+            for (let i = bubbles.length - 1; i >= 0; i--) {
+                bubbles[i].y -= bubbles[i].speed;
+                bubbles[i].x += Math.sin(time * bubbles[i].wobble) * 0.3;
+
+                if (bubbles[i].y < 0) {
+                    bubbles.splice(i, 1);
+                }
+            }
+
+            // Spawn new bubbles occasionally
+            if (Math.random() < 0.04) {
+                createBubble();
+            }
 
             // Bird physics
             bird.velocity += bird.gravity;
@@ -290,17 +319,64 @@
         }
 
         function draw() {
-            // Draw sky
-            ctx.fillStyle = 'rgba(135, 206, 235, 0.3)';
+            // Draw underwater gradient background
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#1a4d5c');
+            gradient.addColorStop(0.5, '#0d3a47');
+            gradient.addColorStop(1, '#051f28');
+            ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Draw pipes
-            ctx.fillStyle = '#2ecc71';
+            // Draw light rays
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 5; i++) {
+                ctx.beginPath();
+                ctx.moveTo(canvas.width / 5 * i + Math.sin(time * 0.01) * 5, 0);
+                ctx.lineTo(canvas.width / 5 * i + Math.sin(time * 0.01 + i) * 20, canvas.height);
+                ctx.stroke();
+            }
+
+            // Draw bubbles
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.lineWidth = 1;
+            for (let bubble of bubbles) {
+                ctx.beginPath();
+                ctx.arc(bubble.x, bubble.y, bubble.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            }
+
+            // Draw sand floor
+            ctx.fillStyle = '#c2a878';
+            ctx.fillRect(0, canvas.height - 30, canvas.width, 30);
+
+            // Draw sand texture
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            for (let i = 0; i < canvas.width; i += 20) {
+                ctx.fillRect(i, canvas.height - 15, 10, 5);
+            }
+
+            // Draw pipes (as coral/seaweed)
+            ctx.fillStyle = '#8B4513';
             for (let pipe of pipes) {
-                // Top pipe
-                ctx.fillRect(pipe.x, 0, pipeWidth, pipe.gapY);
-                // Bottom pipe
-                ctx.fillRect(pipe.x, pipe.gapY + pipeGap, pipeWidth, canvas.height - (pipe.gapY + pipeGap));
+                // Top pipe (coral)
+                ctx.fillRect(pipe.x + 5, 0, pipeWidth - 10, pipe.gapY);
+                // Add coral bumps
+                ctx.fillStyle = '#A0522D';
+                ctx.beginPath();
+                ctx.arc(pipe.x + pipeWidth / 2, pipe.gapY, 8, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Bottom pipe (coral)
+                ctx.fillStyle = '#8B4513';
+                ctx.fillRect(pipe.x + 5, pipe.gapY + pipeGap, pipeWidth - 10, canvas.height - (pipe.gapY + pipeGap) - 30);
+                // Add coral bumps
+                ctx.fillStyle = '#A0522D';
+                ctx.beginPath();
+                ctx.arc(pipe.x + pipeWidth / 2, pipe.gapY + pipeGap, 8, 0, Math.PI * 2);
+                ctx.fill();
             }
 
             // Draw fish body
