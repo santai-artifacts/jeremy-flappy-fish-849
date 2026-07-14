@@ -190,6 +190,7 @@
         const pipeSeparation = 220;
         let bubbles = [];
         let time = 0;
+        let animationId = null;
 
         updateBestScoreDisplay();
 
@@ -221,9 +222,12 @@
             score = 0;
             gameRunning = true;
             gameStarted = false;
+            bubbles = [];
+            time = 0;
             overlay.classList.remove('active');
             scoreDisplay.textContent = '0';
             createInitialPipes();
+            if (animationId) cancelAnimationFrame(animationId);
             gameLoop();
         }
 
@@ -450,7 +454,7 @@
         function gameLoop() {
             update();
             draw();
-            requestAnimationFrame(gameLoop);
+            animationId = requestAnimationFrame(gameLoop);
         }
 
         // Start the game
